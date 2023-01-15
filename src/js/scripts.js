@@ -1,4 +1,22 @@
 // write class for car
+//properties for car Make, Model, Year, Odometer and engine
+class Car {
+    constructor(carMake = "DMC", carModel = "Delorean", carYear = "1982", carOdometer = 0, carEngine = "BLANK")
+    {
+        this.carMake = carMake;
+        this.carModel = carModel;
+        this.carYear = carYear;
+        this.carOdometer = carOdometer;
+        this.carEngine = carEngine;
+    }
+
+    //Declare outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
+    carMake;
+    carModel;
+    carYear;
+    carOdometer;
+    carEngine;
+}
 
 
 // write class for engine
@@ -11,7 +29,7 @@
 
 //constructor of car instantiate an engine aswell
 
-//properties for car Make, Model, Year, Odometer and engine
+
 
 //engine will be instance of engine class
 
