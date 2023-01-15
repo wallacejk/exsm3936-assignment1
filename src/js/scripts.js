@@ -1,28 +1,52 @@
 // write class for car
 //properties for car Make, Model, Year, Odometer and engine
 class Car {
-    constructor(carMake = "DMC", carModel = "Delorean", carYear = "1982", carOdometer = 0, carEngine = "BLANK")
-    {
+    constructor(carMake = "DMC", carModel = "Delorean", carYear = "1982", carEngine = "BLANK") {
         this.carMake = carMake;
         this.carModel = carModel;
         this.carYear = carYear;
-        this.carOdometer = carOdometer;
+        // cars odometer initalize to 0
+        this.carOdometer = 0;
         this.carEngine = carEngine;
+        
     }
-
     //Declare outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
     carMake;
     carModel;
     carYear;
-    carOdometer;
+    #carOdometer;
     carEngine;
+
+    get carOdometer() {
+        return this.#carOdometer;
+    }
+    set carOdometer(incomingValue) {
+        if (incomingValue < 0) {
+            throw new Error("The car odometer cannot have a negative value");
+        }
+        // TODO!! ADD ENGINE RUNNING TO ENGINE OBJECT
+
+        this.#carOdometer = incomingValue;
+
+    }
+    
+    //drive the car(single parameter representing the distance to drive) which will add the argument to the odometer if the engine is on and throw and exception otherwise
+    drive(kmTravelled) {
+        let kmToAdd = kmTravelled;
+        
+        let newOdometerReading = this.carOdometer + kmToAdd;
+        this.carOdometer = newOdometerReading;
+
+    }
+
+   
 }
 
 
 // write class for engine
 // both have their own constructor
 
-// cars odometer initalize to 0
+
 // engine running initalize to false
 
 //other properties passed in through constructor parameters
@@ -36,7 +60,7 @@ class Car {
 //methods of >>>>>car class
 //start car engine(no parameters) set engine to run
 //stop car engine(no parameters) set engine to not running
-//drive the car(single parameter representing the distance to drive) which will add the argument to the odometer if the engine is on and throw and exception otherwise
+
 
 //properties of engine class should include number of cylinders, wether its running or not
 
@@ -57,7 +81,19 @@ class Car {
 
 
 async function main() {
-   
+    let myCar = new Car();
+    myCar.drive(10);
+    output(myCar.carOdometer);
+    try {
+        myCar.drive(-20);
+    }
+    catch (error)
+    {
+        output(error);
+    }
+    output(myCar.carOdometer);
+
+
 }
 
 
