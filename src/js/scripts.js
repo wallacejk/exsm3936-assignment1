@@ -2,12 +2,12 @@
 // both have their own constructor
 //properties for car Make, Model, Year, Odometer and engine
 class Car {
-    constructor(carMake = "DMC", carModel = "Delorean", carYear = "1982", carEngine = new Engine()) {
+    constructor(carMake = "DMC", carModel = "Delorean", carOdometer = 0, carYear = "1982", carEngine = new Engine()) {
         this.carMake = carMake;
         this.carModel = carModel;
         this.carYear = carYear;
         // cars odometer initalize to 0
-        this.carOdometer = 0;
+        this.carOdometer = carOdometer;
         this.carEngine = carEngine;
 
     }
@@ -22,8 +22,9 @@ class Car {
         return this.#carOdometer;
     }
     set carOdometer(incomingValue) {
+
         if (incomingValue < 0) {
-            throw new Error("The car odometer cannot have a negative value");
+            throw new Error("The car odometer cannot drive negative distances");
         }
 
         // TODO!! ADD ENGINE RUNNING TO ENGINE OBJECT
@@ -34,6 +35,11 @@ class Car {
 
     //drive the car(single parameter representing the distance to drive) which will add the argument to the odometer if the engine is on and throw and exception otherwise
     drive(kmTravelled) {
+        if (!this.carEngine.engineRunning) {
+            throw new Error("The engine is not running. You cannot drive")
+        }
+
+        
         let kmToAdd = kmTravelled;
 
         let newOdometerReading = this.carOdometer + kmToAdd;
@@ -43,16 +49,16 @@ class Car {
     //methods of >>>>>car class
     //start car engine(no parameters) set engine to run
     startEngine() {
-        
-
+        if (this.carEngine.engineRunning == true) {
+            throw new Error("Engine is already running");
+        }
         this.carEngine.engineRunning = true;
-        
-
-
     }
     //stop car engine(no parameters) set engine to not running
     stopEngine() {
-        
+        if (this.carEngine.engineRunning == false) {
+            throw new Error("Engine is already off");
+        }
         this.carEngine.engineRunning = false;
     }
 
@@ -66,7 +72,7 @@ class Car {
 class Engine {
     constructor(engineRunning = false, engineCylinders = 6) {
         // engine running initalize to false
-        this.engineRunning = engineRunning;
+        this.#engineRunning = engineRunning;
         this.engineCylinders = engineCylinders;
     }
     //Declare outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
@@ -119,13 +125,17 @@ class Engine {
 
 async function main() {
     let myCar = new Car();
+
     myCar.startEngine();
     output(myCar.carEngine.engineRunning);
     myCar.drive(100);
     output(myCar.carOdometer);
     myCar.stopEngine();
+    
     output(myCar.carEngine.engineRunning);
+    
     myCar.startEngine();
+    
     output(myCar.carEngine.engineRunning);
     myCar.drive(50);
     output(myCar.carOdometer);
