@@ -25,6 +25,7 @@ class Car {
         if (incomingValue < 0) {
             throw new Error("The car odometer cannot have a negative value");
         }
+
         // TODO!! ADD ENGINE RUNNING TO ENGINE OBJECT
 
         this.#carOdometer = incomingValue;
@@ -45,12 +46,14 @@ class Car {
         
 
         this.carEngine.engineRunning = true;
+        
 
 
     }
     //stop car engine(no parameters) set engine to not running
     stopEngine() {
-
+        
+        this.carEngine.engineRunning = false;
     }
 
 
@@ -61,24 +64,24 @@ class Car {
 //properties of engine class should include number of cylinders, wether its running or not
 
 class Engine {
-    constructor(engineRunning = false, engineCylinders = 6,) {
+    constructor(engineRunning = false, engineCylinders = 6) {
         // engine running initalize to false
         this.engineRunning = engineRunning;
         this.engineCylinders = engineCylinders;
     }
     //Declare outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
-    engineRunning;
+    #engineRunning;
     engineCylinders;
     
 
     get engineRunning() {
-        return this.engineRunning;
+        return this.#engineRunning;
     }
     set engineRunning(incomingValue) {
-        if (this.engineRunning == true) {
-            throw new Error("The car is already running");
-        }
-        this.engineRunning = incomingValue;
+        
+        
+        
+        this.#engineRunning = incomingValue;
 
     }
     toString() {
@@ -116,22 +119,33 @@ class Engine {
 
 async function main() {
     let myCar = new Car();
-    myCar.drive(10);
-    output(myCar.carOdometer);
-    try {
-        myCar.drive(-20);
-    }
-    catch (error) {
-        output(error);
-    }
-    output(myCar.carOdometer);
-    
-    output(myCar.carEngine);
-    output(myCar.carEngine.engineRunning);
-
     myCar.startEngine();
     output(myCar.carEngine.engineRunning);
+    myCar.drive(100);
+    output(myCar.carOdometer);
+    myCar.stopEngine();
+    output(myCar.carEngine.engineRunning);
+    myCar.startEngine();
+    output(myCar.carEngine.engineRunning);
+    myCar.drive(50);
+    output(myCar.carOdometer);
+    myCar.stopEngine();
+    output(`Odometer: ${myCar.carOdometer}KM`);
     
+    // output(myCar.carEngine);
+    // output(myCar.carEngine.engineRunning);
+
+    // myCar.startEngine();
+    // output(myCar.carEngine.engineRunning);
+
+    
+    // output(myCar.carEngine.engineRunning);
+    // try {
+    //     myCar.drive(20);
+    // }
+    // catch (error) {
+    //     output(error);
+    // }
 
 
 
