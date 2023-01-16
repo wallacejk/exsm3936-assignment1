@@ -1,163 +1,155 @@
-// write class for car and engine
-// both have their own constructor
-//properties for car Make, Model, Year, Odometer and engine
 class Car {
-    constructor(carMake = "DMC", carModel = "Delorean", carOdometer = 0, carYear = "1982", carEngine = new Engine()) {
+    constructor(carMake = "DMC", carModel = "Delorean", carOdometer = 0, carYear = "1982", carEngine = new Engine(), carTransmission = new Transmission()) {
         this.carMake = carMake;
         this.carModel = carModel;
         this.carYear = carYear;
-        // cars odometer initalize to 0
         this.carOdometer = carOdometer;
         this.carEngine = carEngine;
+        this.carTransmission = carTransmission;
 
     }
-    //Declare outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
+
+    //Declared outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
     carMake;
     carModel;
     carYear;
     #carOdometer;
     carEngine;
+    carTransmission;
 
     get carOdometer() {
         return this.#carOdometer;
     }
-    set carOdometer(incomingValue) {
 
+    set carOdometer(incomingValue) {
         if (incomingValue < 0) {
             throw new Error("The car odometer cannot drive negative distances");
         }
 
-        // TODO!! ADD ENGINE RUNNING TO ENGINE OBJECT
-
         this.#carOdometer = incomingValue;
-
     }
 
-    //drive the car(single parameter representing the distance to drive) which will add the argument to the odometer if the engine is on and throw and exception otherwise
+    //Methods for Car Class
     drive(kmTravelled) {
-        if (!this.carEngine.engineRunning) {
+        if (this.carEngine.engineRunning == false) {
             throw new Error("The engine is not running. You cannot drive")
         }
 
-        
         let kmToAdd = kmTravelled;
-
         let newOdometerReading = this.carOdometer + kmToAdd;
-        this.carOdometer = newOdometerReading;
 
+        this.carOdometer = newOdometerReading;
     }
-    //methods of >>>>>car class
-    //start car engine(no parameters) set engine to run
+
     startEngine() {
         if (this.carEngine.engineRunning == true) {
             throw new Error("Engine is already running");
         }
+
         this.carEngine.engineRunning = true;
     }
-    //stop car engine(no parameters) set engine to not running
+
     stopEngine() {
         if (this.carEngine.engineRunning == false) {
             throw new Error("Engine is already off");
         }
+
         this.carEngine.engineRunning = false;
     }
 
-
 }
-
-
-// write class for engine
-//properties of engine class should include number of cylinders, wether its running or not
 
 class Engine {
     constructor(engineRunning = false, engineCylinders = 6) {
-        // engine running initalize to false
         this.#engineRunning = engineRunning;
         this.engineCylinders = engineCylinders;
     }
-    //Declare outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
+
+    //Declared outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
     #engineRunning;
     engineCylinders;
-    
 
     get engineRunning() {
         return this.#engineRunning;
     }
     set engineRunning(incomingValue) {
-        
-        
-        
         this.#engineRunning = incomingValue;
+    }
 
-    }
-    toString() {
-        return `A ${this.engineCylinders} Cylinder Engine that is ${this.engineRunning}`
-    }
 }
 
+class Transmission {
+    constructor(transmissionType = "Manual", transmissionGears = 5) {
+        this.transmissionType = transmissionType;
+        this.transmissionGears = transmissionGears;
+    }
 
+    //Declared outside constructor for language agnosticism (Not required for Javascript if they have a value in the constructor)
+    transmissionType;
+    transmissionGears;
 
+}
 
-
-//other properties passed in through constructor parameters
-
-//constructor of car instantiate an engine aswell
-
-
-//engine will be instance of engine class
-
-
-//once class is constructed, write script in console that will (remember to catch exceptions)
-//1 Instatniate a car
-//2 Turn its engine on
-//3 Drive for 100km
-//4 Turn the engine off
-//5 Turn its engine on
-//6 Drive for 50km
-//7 Turn the engine off
-//8 Output the odometer reading to the console
-
-//No user input required
-
-//Finally output a JSON string representing your car object to the console
-
-
+//Console Output
 
 async function main() {
+
+    //Instantiate a car
     let myCar = new Car();
 
-    myCar.startEngine();
-    output(myCar.carEngine.engineRunning);
-    myCar.drive(100);
-    output(myCar.carOdometer);
-    myCar.stopEngine();
-    
-    output(myCar.carEngine.engineRunning);
-    
-    myCar.startEngine();
-    
-    output(myCar.carEngine.engineRunning);
-    myCar.drive(50);
-    output(myCar.carOdometer);
-    myCar.stopEngine();
+    //Turn its engine on
+    try {
+        myCar.startEngine();
+    }
+    catch (error) {
+        output(error);
+    }
+
+    //Drive for 100km
+    try {
+        myCar.drive(100);
+    }
+    catch (error) {
+        output(error);
+    }
+
+    //Turn the engine off
+    try {
+        myCar.stopEngine();
+    }
+    catch (error) {
+        output(error);
+    }
+
+    //Turn the engine on
+    try {
+        myCar.startEngine();
+    }
+    catch (error) {
+        output(error);
+    }
+
+    //Drive for 50km
+    try {
+        myCar.drive(50);
+    }
+    catch (error) {
+        output(error);
+    }
+
+    //Turn the engine off
+    try {
+        myCar.stopEngine();
+    }
+    catch (error) {
+        output(error);
+    }
+
+    //Output the odometer reading to the console
     output(`Odometer: ${myCar.carOdometer}KM`);
-    
-    // output(myCar.carEngine);
-    // output(myCar.carEngine.engineRunning);
 
-    // myCar.startEngine();
-    // output(myCar.carEngine.engineRunning);
-
-    
-    // output(myCar.carEngine.engineRunning);
-    // try {
-    //     myCar.drive(20);
-    // }
-    // catch (error) {
-    //     output(error);
-    // }
-
-
+    //Output a JSON string representing your Car object to the console
+    output(JSON.stringify(myCar));
 
 }
 
